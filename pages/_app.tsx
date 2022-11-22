@@ -1,3 +1,5 @@
+import { Provider } from 'react-redux';
+
 import { Global } from '@emotion/react';
 
 import type { AppProps } from 'next/app';
@@ -6,13 +8,13 @@ import globals from '../styles/globals';
 
 import wrapper from '../store';
 
-function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
+
   return (
-    <>
+    <Provider store={store}>
       <Global styles={globals} />
-      <Component {...pageProps} />
-    </>
+      <Component {...props.pageProps} />
+    </Provider>
   );
 }
-
-export default wrapper.withRedux(App);
