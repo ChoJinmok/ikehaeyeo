@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import SignUpInput from './SignUpInput';
+import SignUpInput from '../../components/signup/SignUpInput';
 
 import SIGN_UP_INPUT_NAMES from '../../fixtures/signUpInputNames';
 
