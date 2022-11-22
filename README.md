@@ -1,34 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# :pushpin: 이케해여?
 
-## Getting Started
+> IKEA 사이트를 모티브 한 가구 커머스 서비스
+> 팀으로 진행했던 프로젝트 [이케해여](https://github.com/ChoJinmok/30-1st-WEKEA-frontend)를 리팩터링하고 있습니다.
+> 처음부터 새롭게 시작하는게 낫다고 판단하였습니다.
 
-First, run the development server:
+## 1. 제작 기간 & 참여 인원
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- 2022년 11월 22일 ~ 현재
+- 프론트 엔드 : 조진목, 안광민, 유강호
+- 개인 프로젝트
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</br>
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 2. 사용 기술
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+#### `Front-end`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- React.js(v18)
+- Next.js(v13)
+- Redux Toolkit
+- Jest / React Testing Library
+- Emotion
+- JavaScript
+- HTML5 / CSS
+- Git / GitHub
+- GitHub Actions(CI) / Vercel(CD)
 
-## Learn More
+#### `Back-end`
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Firebase (REST)
