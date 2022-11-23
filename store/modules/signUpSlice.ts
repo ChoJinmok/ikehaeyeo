@@ -23,9 +23,13 @@ const { actions, reducer } = createSlice({
   initialState,
 
   reducers: {
-    changeSignUpField(state) {
+    changeSignUpField(state, { payload: { name, value } }) {
       return {
         ...state,
+        signUpFields: {
+          ...state.signUpFields,
+          [name]: value,
+        },
       };
     },
   },
