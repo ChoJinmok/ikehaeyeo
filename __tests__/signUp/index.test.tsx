@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import SignUp from '../../pages/signup/index';
+import SignUp from '../../pages/signUp/index';
 
 describe('SignUp', () => {
   it('renders title', () => {
