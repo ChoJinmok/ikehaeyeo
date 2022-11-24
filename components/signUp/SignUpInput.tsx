@@ -1,8 +1,20 @@
+import { memo, ChangeEvent } from 'react';
+
+import { HandleChangeParameter } from './type';
+
 interface SignUpInputProps {
-    name: string
+    name: string;
+    value: string;
+    onChange: ({ name, value }: HandleChangeParameter) => void;
 }
 
-export default function SignUpInput({ name }: SignUpInputProps) {
+function SignUpInput(
+  { name, value, onChange }: SignUpInputProps,
+) {
+  function handleChange({ target }: ChangeEvent<HTMLInputElement>) {
+    onChange({ name, value: target.value });
+  }
+
   return (
     <>
       <label htmlFor={name}>
@@ -12,7 +24,11 @@ export default function SignUpInput({ name }: SignUpInputProps) {
         type="text"
         id={name}
         name={name}
+        value={value}
+        onChange={handleChange}
       />
     </>
   );
 }
+
+export default memo(SignUpInput);
