@@ -2,18 +2,16 @@ import { render } from '@testing-library/react';
 
 import SignUpInput from '../../components/signUp/SignUpInput';
 
-import SIGN_UP_INPUT_NAMES from '../../fixtures/signUpInputNames';
-
 describe('SignUpInput', () => {
-  SIGN_UP_INPUT_NAMES.forEach((inputName) => {
-    it('renders label and input control', () => {
-      const { queryByLabelText } = render(
-        <SignUpInput
-          name={inputName}
-        />,
-      );
+  it('renders label and input control', () => {
+    const inputName = '이름';
 
-      expect(queryByLabelText(inputName)).not.toBeNull();
-    });
+    const { queryByLabelText } = render(
+      <SignUpInput
+        name={inputName}
+      />,
+    );
+
+    expect(queryByLabelText(inputName)).not.toBeNull();
   });
 });
