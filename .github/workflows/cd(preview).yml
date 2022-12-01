@@ -31,7 +31,7 @@ jobs:
 
   End-to-end tests:
     runs-on: ubuntu-latest
-
+    needs: Deploy-Preview
     strategy:
       matrix:
         node-version: [18.x]
