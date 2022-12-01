@@ -49,4 +49,4 @@ jobs:
       - name: Test
         run: npm run test:e2e
         env:
-          VERCEL_URL: https://ikehaeyeo-chojinmok.vercel.app
+          VERCEL_URL: 'https://ikehaeyeo-chojinmok.vercel.app'
