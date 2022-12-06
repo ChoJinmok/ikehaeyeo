@@ -7,10 +7,10 @@ describe('SignUpInput', () => {
 
   const inputName = 'name';
 
-  function renderSignUpInput(value = '') {
+  function renderSignUpInput({ name = inputName, value = '' } = {}) {
     return render(
       <SignUpInput
-        name={inputName}
+        name={name}
         value={value}
         onChange={handleChange}
       />,
@@ -46,8 +46,16 @@ describe('SignUpInput', () => {
   it('renders input value', () => {
     const targetValue = 'test';
 
-    const { getByLabelText } = renderSignUpInput(targetValue);
+    const { getByLabelText } = renderSignUpInput({ value: targetValue });
 
     expect(getByLabelText(inputName)).toHaveValue(targetValue);
+  });
+
+  context('when \'phone number\' input renders', () => {
+    it('renders \'KR (+82)\'', () => {
+      const { queryByText } = renderSignUpInput({ name: 'phoneNumber' });
+
+      expect(queryByText('KR (+82)')).not.toBeNull();
+    });
   });
 });

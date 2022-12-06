@@ -16,7 +16,8 @@ function SignUpInput(
   }
 
   return (
-    <>
+    <div>
+      {name === 'phoneNumber' && <span>KR (+82)</span>}
       <label htmlFor={name}>
         {name}
       </label>
@@ -27,7 +28,7 @@ function SignUpInput(
         value={value}
         onChange={handleChange}
       />
-    </>
+    </div>
   );
 }
 

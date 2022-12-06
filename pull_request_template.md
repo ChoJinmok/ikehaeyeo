@@ -1,3 +1,9 @@
+## :: Actions Status
+
+![CD preview](<https://github.com/ChoJinmok/ikehaeyeo/actions/workflows/cd(preview).yml/badge.svg>)
+
+<br />
+
 ## :: 최근 작업 주제 (하나 이상의 주제를 선택해주세요.)
 
 - [ ] 기능 추가
