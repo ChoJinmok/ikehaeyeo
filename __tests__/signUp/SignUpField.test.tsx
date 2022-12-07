@@ -2,6 +2,8 @@ import { render, fireEvent } from '@testing-library/react';
 
 import SignUpField from '../../components/signUp/SignUpField';
 
+import genderOptions from '../../fixtures/genderOptions';
+
 describe('SignUpInput', () => {
   const handleChange = jest.fn();
 
@@ -65,9 +67,9 @@ describe('SignUpInput', () => {
 
       const genderSelector = getByLabelText('gender');
 
-      const genders = ['남성', '여성', '응답 거부'];
+      expect(genderSelector.firstChild).toBeEmptyDOMElement();
 
-      genders.forEach(((gender) => {
+      genderOptions.forEach((({ text: gender }) => {
         expect(genderSelector).toContainElement(getByText(gender));
       }));
     });

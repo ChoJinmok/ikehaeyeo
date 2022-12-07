@@ -1,4 +1,4 @@
-const signUpInputNames: string[] = [
+const signUpInputNames = [
   'name',
   'phoneNumber',
   'gender',

@@ -1,5 +1,7 @@
 import { memo, ChangeEvent } from 'react';
 
+import genderOptions from '../../fixtures/genderOptions';
+
 import { HandleChangeParameter } from './type';
 
 interface SignUpInputProps {
@@ -12,7 +14,7 @@ function SignUpField(
   { name, value, onChange }: SignUpInputProps,
 ) {
   function handleChange(
-    { target }: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
+    { target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
     onChange({ name, value: target.value });
   }
@@ -31,9 +33,9 @@ function SignUpField(
           onChange={handleChange}
         >
           <option aria-label="gender none" value="" />
-          <option value="male">남성</option>
-          <option value="female">여성</option>
-          <option value="prefer_net_to_say">응답 거부</option>
+          {genderOptions.map(({ value: genderValue, text }) => (
+            <option key={genderValue} value={genderValue}>{text}</option>
+          ))}
         </select>
       ) : (
         <input
