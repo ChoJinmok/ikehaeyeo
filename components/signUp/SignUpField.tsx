@@ -12,7 +12,7 @@ interface SignUpInputProps {
 }
 
 function SignUpField(
-  { field: { name, label }, value, onChange }: SignUpInputProps,
+  { field: { name, label, type = 'text' }, value, onChange }: SignUpInputProps,
 ) {
   const id = `signUp-${name}`;
 
@@ -42,7 +42,7 @@ function SignUpField(
         </select>
       ) : (
         <input
-          type="text"
+          type={type}
           id={id}
           name={name}
           value={value}

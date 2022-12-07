@@ -24,7 +24,7 @@ describe('SignUpContainer', () => {
       gender: 'male',
       streetNameAddress: 'test',
       detailedAddress: 'test',
-      zipCode: '1234',
+      zipCode: 1234,
       email: 'test@test',
       password: '1234',
     },
@@ -45,12 +45,14 @@ describe('SignUpContainer', () => {
 
     const { queryByLabelText } = render(<SignUpContainer />);
 
-    SIGN_UP_FIELDS.forEach(({ name, label }) => {
-      const signUpInput = queryByLabelText(label);
+    SIGN_UP_FIELDS.forEach(
+      ({ name, label }) => {
+        const signUpInput = queryByLabelText(label);
 
-      expect(signUpInput).not.toBeNull();
-      expect(signUpInput).toHaveValue(signUpFields[name]);
-    });
+        expect(signUpInput).not.toBeNull();
+        expect(signUpInput).toHaveValue(signUpFields[name]);
+      },
+    );
   });
 
   it('listens change events', () => {

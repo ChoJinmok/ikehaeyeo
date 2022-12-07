@@ -1,7 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export interface SignUpFields {
+  name: string;
+  birthDate: string;
+  phoneNumber: string;
+  gender: string;
+  streetNameAddress: string;
+  detailedAddress: string;
+  zipCode: number;
+  email: string;
+  password: string;
+}
+
 export interface SignUpState {
-    signUpFields: { [key: string]: string }
+    signUpFields: SignUpFields
 }
 
 export const initialState: SignUpState = {
@@ -12,7 +24,7 @@ export const initialState: SignUpState = {
     gender: '',
     streetNameAddress: '',
     detailedAddress: '',
-    zipCode: '',
+    zipCode: 0,
     email: '',
     password: '',
   },
