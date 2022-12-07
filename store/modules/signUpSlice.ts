@@ -4,9 +4,10 @@ export interface SignUpState {
     signUpFields: { [key: string]: string }
 }
 
-const initialState: SignUpState = {
+export const initialState: SignUpState = {
   signUpFields: {
     name: '',
+    birthDate: '',
     phoneNumber: '',
     gender: '',
     streetNameAddress: '',

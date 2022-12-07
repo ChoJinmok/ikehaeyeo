@@ -2,17 +2,20 @@ import { memo, ChangeEvent } from 'react';
 
 import genderOptions from '../../fixtures/genderOptions';
 
+import { SignUpField } from '../../fixtures/signUpFields';
 import { HandleChangeParameter } from './type';
 
 interface SignUpInputProps {
-    name: string;
+    field: SignUpField;
     value: string;
     onChange: ({ name, value }: HandleChangeParameter) => void;
 }
 
 function SignUpField(
-  { name, value, onChange }: SignUpInputProps,
+  { field: { name, label }, value, onChange }: SignUpInputProps,
 ) {
+  const id = `signUp-${name}`;
+
   function handleChange(
     { target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
@@ -22,12 +25,12 @@ function SignUpField(
   return (
     <div>
       {name === 'phoneNumber' && <span>KR (+82)</span>}
-      <label htmlFor={name}>
-        {name}
+      <label htmlFor={id}>
+        {label}
       </label>
       {name === 'gender' ? (
         <select
-          id={name}
+          id={id}
           name={name}
           value={value}
           onChange={handleChange}
@@ -40,7 +43,7 @@ function SignUpField(
       ) : (
         <input
           type="text"
-          id={name}
+          id={id}
           name={name}
           value={value}
           onChange={handleChange}

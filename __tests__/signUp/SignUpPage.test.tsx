@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 
 import SignUp from '../../pages/signup/index';
 
-import SIGN_UP_INPUT_NAMES from '../../fixtures/signUpInputNames';
+import { initialState } from '../../store/modules/signUpSlice';
+import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
 
 jest.mock('react-redux');
 
@@ -13,18 +14,7 @@ const mockedUseSelector = useSelector as jest.Mock<typeof useSelector>;
 describe('SignUp', () => {
   beforeEach(() => {
     mockedUseSelector.mockImplementation((selector) => selector({
-      signUp: {
-        signUpFields: {
-          name: '',
-          phoneNumber: '',
-          gender: '',
-          streetNameAddress: '',
-          detailedAddress: '',
-          zipCode: '',
-          email: '',
-          password: '',
-        },
-      },
+      signUp: initialState,
     }));
   });
 
@@ -34,11 +24,11 @@ describe('SignUp', () => {
     expect(container).toHaveTextContent('IKEHAEYEO Family 회원 가입');
   });
 
-  it('renders sign up inputs', () => {
+  it('renders sign up fields', () => {
     const { queryByLabelText } = render(<SignUp />);
 
-    SIGN_UP_INPUT_NAMES.forEach((inputName) => {
-      const signUpInput = queryByLabelText(inputName);
+    SIGN_UP_FIELDS.forEach(({ label }) => {
+      const signUpInput = queryByLabelText(label);
 
       expect(signUpInput).not.toBeNull();
     });

@@ -9,7 +9,7 @@ import { HandleChangeParameter } from './type';
 
 import { changeSignUpField } from '../../store/modules/signUpSlice';
 
-import SIGN_UP_INPUT_NAMES from '../../fixtures/signUpInputNames';
+import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
 
 export default function SignUpContainer() {
   const dispatch = useDispatch();
@@ -22,14 +22,18 @@ export default function SignUpContainer() {
 
   return (
     <>
-      {SIGN_UP_INPUT_NAMES.map((inputName) => (
-        <SignUpField
-          key={inputName}
-          name={inputName}
-          value={signUpFields[inputName]}
-          onChange={handleChange}
-        />
-      ))}
+      {SIGN_UP_FIELDS.map((signUpField) => {
+        const { name } = signUpField;
+
+        return (
+          <SignUpField
+            key={name}
+            field={signUpField}
+            value={signUpFields[name]}
+            onChange={handleChange}
+          />
+        );
+      })}
     </>
   );
 }

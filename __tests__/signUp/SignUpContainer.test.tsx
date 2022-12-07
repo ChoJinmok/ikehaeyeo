@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SignUpContainer from '../../components/signUp/SignUpContainer';
 
-import SIGN_UP_INPUT_NAMES from '../../fixtures/signUpInputNames';
+import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
 
 import { SignUpState } from '../../store/modules/signUpSlice';
 
@@ -19,6 +19,7 @@ describe('SignUpContainer', () => {
   const signUpState: SignUpState = {
     signUpFields: {
       name: 'name',
+      birthDate: '1991-11-27',
       phoneNumber: '010',
       gender: 'male',
       streetNameAddress: 'test',
@@ -44,18 +45,18 @@ describe('SignUpContainer', () => {
 
     const { queryByLabelText } = render(<SignUpContainer />);
 
-    SIGN_UP_INPUT_NAMES.forEach((inputName) => {
-      const signUpInput = queryByLabelText(inputName);
+    SIGN_UP_FIELDS.forEach(({ name, label }) => {
+      const signUpInput = queryByLabelText(label);
 
       expect(signUpInput).not.toBeNull();
-      expect(signUpInput).toHaveValue(signUpFields[inputName]);
+      expect(signUpInput).toHaveValue(signUpFields[name]);
     });
   });
 
   it('listens change events', () => {
     const { getByLabelText } = render(<SignUpContainer />);
 
-    fireEvent.change(getByLabelText('name'), {
+    fireEvent.change(getByLabelText('이름'), {
       target: { value: 'test' },
     });
 
