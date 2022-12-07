@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import SignUpInput from './SignUpInput';
+import SignUpField from './SignUpField';
 
 import { RootState } from '../../store';
 import { HandleChangeParameter } from './type';
@@ -23,7 +23,7 @@ export default function SignUpContainer() {
   return (
     <>
       {SIGN_UP_INPUT_NAMES.map((inputName) => (
-        <SignUpInput
+        <SignUpField
           key={inputName}
           name={inputName}
           value={signUpFields[inputName]}
