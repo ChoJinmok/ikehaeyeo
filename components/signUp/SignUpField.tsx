@@ -1,26 +1,22 @@
-import { ChangeEvent } from 'react';
-
-import genderOptions from '../../fixtures/genderOptions';
+import SignUpFieldController from './SignUpFieldController';
 
 import { SignUpField as SignUpFieldType } from '../../fixtures/signUpFields';
-import { HandleChangeParameter } from './type';
+import { HandleChange, ValueOfSignUpFields } from './type';
 
 interface SignUpInputProps {
   field: SignUpFieldType;
-  value: string | number;
-  onChange: ({ name, value }: HandleChangeParameter) => void;
+  value: ValueOfSignUpFields;
+  onChange: HandleChange;
 }
 
 export default function SignUpField(
-  { field: { name, label, type = 'text' }, value, onChange }: SignUpInputProps,
+  {
+    field: { name, label, type },
+    value,
+    onChange,
+  }: SignUpInputProps,
 ) {
   const id = `signUp-${name}`;
-
-  function handleChange(
-    { target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) {
-    onChange({ name, value: target.value });
-  }
 
   return (
     <div>
@@ -28,27 +24,13 @@ export default function SignUpField(
       <label htmlFor={id}>
         {label}
       </label>
-      {name === 'gender' ? (
-        <select
-          id={id}
-          name={name}
-          value={value}
-          onChange={handleChange}
-        >
-          <option aria-label="gender none" value="" />
-          {genderOptions.map(({ value: genderValue, text }) => (
-            <option key={genderValue} value={genderValue}>{text}</option>
-          ))}
-        </select>
-      ) : (
-        <input
-          type={type}
-          id={id}
-          name={name}
-          value={value}
-          onChange={handleChange}
-        />
-      )}
+      <SignUpFieldController
+        id={id}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 }

@@ -1,9 +1,11 @@
+import { HTMLInputTypeAttribute } from 'react';
+
 import { SignUpFields } from '../store/modules/signUpSlice';
 
 export interface SignUpField {
   name: keyof SignUpFields;
   label: string;
-  type?: string;
+  type?: HTMLInputTypeAttribute;
 }
 
 const signUpFields: SignUpField[] = [

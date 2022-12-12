@@ -4,11 +4,11 @@ import SignUpField from './SignUpField';
 
 import { SignUpFields } from '../../store/modules/signUpSlice';
 import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
-import { HandleChangeParameter } from './type';
+import { HandleChange } from './type';
 
 interface SignUpFormProps {
   signUpFields: SignUpFields;
-  onChange: ({ name, value }: HandleChangeParameter) => void;
+  onChange: HandleChange;
 }
 
 function SignUpForm({ signUpFields, onChange }: SignUpFormProps) {
