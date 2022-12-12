@@ -1,17 +1,17 @@
-import { memo, ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 import genderOptions from '../../fixtures/genderOptions';
 
-import { SignUpField } from '../../fixtures/signUpFields';
+import { SignUpField as SignUpFieldType } from '../../fixtures/signUpFields';
 import { HandleChangeParameter } from './type';
 
 interface SignUpInputProps {
-    field: SignUpField;
-    value: string;
-    onChange: ({ name, value }: HandleChangeParameter) => void;
+  field: SignUpFieldType;
+  value: string | number;
+  onChange: ({ name, value }: HandleChangeParameter) => void;
 }
 
-function SignUpField(
+export default function SignUpField(
   { field: { name, label, type = 'text' }, value, onChange }: SignUpInputProps,
 ) {
   const id = `signUp-${name}`;
@@ -52,5 +52,3 @@ function SignUpField(
     </div>
   );
 }
-
-export default memo(SignUpField);

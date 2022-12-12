@@ -14,8 +14,6 @@ const mockedUseDispatch = useDispatch as jest.Mock<typeof useDispatch>;
 const mockedUseSelector = useSelector as jest.Mock<typeof useSelector>;
 
 describe('SignUpContainer', () => {
-  const dispatch = jest.fn();
-
   const signUpState: SignUpState = {
     signUpFields: {
       name: 'name',
@@ -30,6 +28,9 @@ describe('SignUpContainer', () => {
     },
   };
 
+  const dispatch = jest.fn();
+  const { signUpFields } = signUpState;
+
   beforeEach(() => {
     dispatch.mockClear();
 
@@ -40,9 +41,7 @@ describe('SignUpContainer', () => {
     }));
   });
 
-  it('renders sign up input controls', () => {
-    const { signUpFields } = signUpState;
-
+  it('renders sign up controls', () => {
     const { queryByLabelText } = render(<SignUpContainer />);
 
     SIGN_UP_FIELDS.forEach(
@@ -56,15 +55,18 @@ describe('SignUpContainer', () => {
   });
 
   it('listens change events', () => {
+    const [{ name, label }] = SIGN_UP_FIELDS;
+    const targetValue = 'test';
+
     const { getByLabelText } = render(<SignUpContainer />);
 
-    fireEvent.change(getByLabelText('이름'), {
-      target: { value: 'test' },
+    fireEvent.change(getByLabelText(label), {
+      target: { value: targetValue },
     });
 
     expect(dispatch).toBeCalledWith({
       type: 'signUp/changeSignUpField',
-      payload: { name: 'name', value: 'test' },
+      payload: { name, value: 'test' },
     });
   });
 });

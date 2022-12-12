@@ -20,7 +20,8 @@
     "**/*.ts",
     "**/*.tsx",
     "types.d.ts",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "test"
   ],
   "exclude": ["node_modules"]
 }

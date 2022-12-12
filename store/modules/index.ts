@@ -7,7 +7,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import signUpSlice, { SignUpState } from './signUpSlice';
 
 export interface ReducerStates {
-   signUp: SignUpState
+  signUp: SignUpState
 }
 
 const reducer = (state: ReducerStates, action: AnyAction) => {
