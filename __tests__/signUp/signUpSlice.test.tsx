@@ -1,7 +1,6 @@
 import
-reducer,
-{
-  initialState as INITIAL_STATE,
+reducer, {
+  initialState,
   changeSignUpField,
 }
   from '../../store/modules/signUpSlice';
@@ -12,20 +11,13 @@ describe('signUpSlice', () => {
       it('returns initialState', () => {
         const state = reducer(undefined, { type: 'action' });
 
-        expect(state).toEqual(INITIAL_STATE);
+        expect(state).toEqual(initialState);
       });
     });
 
     describe('changeSignUpField', () => {
       context('when name is changed', () => {
         it('changes only name field', () => {
-          const initialState = {
-            signUpFields: {
-              name: '',
-              email: '',
-            },
-          };
-
           const state = reducer(
             initialState,
             changeSignUpField({ name: 'name', value: 'test' }),

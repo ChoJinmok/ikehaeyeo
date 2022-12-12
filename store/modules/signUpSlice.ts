@@ -13,7 +13,7 @@ export interface SignUpFields {
 }
 
 export interface SignUpState {
-    signUpFields: SignUpFields
+  signUpFields: SignUpFields
 }
 
 export const initialState: SignUpState = {

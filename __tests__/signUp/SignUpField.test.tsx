@@ -94,15 +94,10 @@ describe('SignUpInput', () => {
 
     const { label, type } = phoneNumberField;
 
-    it('renders \'KR (+82)\'', () => {
-      const { queryByText } = renderSignUpField({ field: phoneNumberField });
+    it('renders \'KR (+82)\' & \'tel\' type input', () => {
+      const { queryByText, getByLabelText } = renderSignUpField({ field: phoneNumberField });
 
       expect(queryByText('KR (+82)')).not.toBeNull();
-    });
-
-    it('renders \'tel\' type input', () => {
-      const { getByLabelText } = renderSignUpField({ field: phoneNumberField });
-
       expect(getByLabelText(label)).toContainHTML(`type="${type}"`);
     });
   });
