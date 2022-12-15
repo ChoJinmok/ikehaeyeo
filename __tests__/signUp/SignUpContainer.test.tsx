@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { render, fireEvent } from '@testing-library/react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +12,12 @@ import { SignUpState } from '../../store/modules/signUpSlice';
 
 jest.mock('react-redux');
 
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useState: jest.fn(),
+}));
+
+const mockedUseState = useState as jest.Mock;
 const mockedUseDispatch = useDispatch as jest.Mock<typeof useDispatch>;
 const mockedUseSelector = useSelector as jest.Mock<typeof useSelector>;
 
@@ -28,11 +36,17 @@ describe('SignUpContainer', () => {
     },
   };
 
+  const setState = jest.fn();
   const dispatch = jest.fn();
-  const { signUpFields } = signUpState;
 
   beforeEach(() => {
+    setState.mockClear();
     dispatch.mockClear();
+
+    mockedUseState.mockImplementation(
+      // eslint-disable-next-line @typescript-eslint/comma-dangle
+      <T, >(initialState: T) => [initialState, setState],
+    );
 
     mockedUseDispatch.mockImplementation(() => dispatch);
 
@@ -42,6 +56,8 @@ describe('SignUpContainer', () => {
   });
 
   it('renders sign up controls', () => {
+    const { signUpFields } = signUpState;
+
     const { queryByLabelText } = render(<SignUpContainer />);
 
     SIGN_UP_FIELDS.forEach(
@@ -68,5 +84,37 @@ describe('SignUpContainer', () => {
       type: 'signUp/changeSignUpField',
       payload: { name, value: 'test' },
     });
+  });
+
+  it('listens mouse over event', () => {
+    const { getByText } = render(<SignUpContainer />);
+
+    fireEvent.mouseOver((getByText('birth-date-tooltip')));
+
+    expect(setState).toBeCalledWith(true);
+  });
+
+  it('listens to focus in event', () => {
+    const { getByText } = render(<SignUpContainer />);
+
+    fireEvent.focusIn(getByText('birth-date-tooltip'));
+
+    expect(setState).toBeCalledWith(true);
+  });
+
+  it('listens mouse leave event', () => {
+    const { getByTestId } = render(<SignUpContainer />);
+
+    fireEvent.mouseLeave((getByTestId('birth-date-tooltip-wrap')));
+
+    expect(setState).toBeCalledWith(false);
+  });
+
+  it('listens to blur event', () => {
+    const { getByTestId } = render(<SignUpContainer />);
+
+    fireEvent.blur(getByTestId('birth-date-tooltip-wrap'));
+
+    expect(setState).toBeCalledWith(false);
   });
 });

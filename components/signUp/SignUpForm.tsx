@@ -9,9 +9,14 @@ import { HandleChange } from './type';
 interface SignUpFormProps {
   signUpFields: SignUpFields;
   onChange: HandleChange;
+  isMouseOver: boolean;
+  onMouseOver: () => void;
+  onMouseLeave: () => void;
 }
 
-function SignUpForm({ signUpFields, onChange }: SignUpFormProps) {
+function SignUpForm({
+  signUpFields, onChange, isMouseOver, onMouseOver, onMouseLeave,
+}: SignUpFormProps) {
   return (
     <form>
       {SIGN_UP_FIELDS.map((signUpField) => {
@@ -23,6 +28,9 @@ function SignUpForm({ signUpFields, onChange }: SignUpFormProps) {
             field={signUpField}
             value={signUpFields[name]}
             onChange={onChange}
+            isMouseOver={isMouseOver}
+            onMouseOver={onMouseOver}
+            onMouseLeave={onMouseLeave}
           />
         );
       })}

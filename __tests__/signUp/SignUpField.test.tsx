@@ -9,6 +9,8 @@ import { ValueOfSignUpFields } from '../../components/signUp/type';
 
 describe('SignUpInput', () => {
   const handleChange = jest.fn();
+  const handleMouseOver = jest.fn();
+  const handleMouseLeave = jest.fn();
   const [defaultSignUpField] = signUpFields;
 
   interface RenderSignUpFieldParams {
@@ -25,12 +27,17 @@ describe('SignUpInput', () => {
         field={field}
         value={value}
         onChange={handleChange}
+        isMouseOver={false}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
       />,
     );
   }
 
   beforeEach(() => {
     handleChange.mockClear();
+    handleMouseOver.mockClear();
+    handleMouseLeave.mockClear();
   });
 
   context('excluding \'gender\' field', () => {
@@ -43,10 +50,20 @@ describe('SignUpInput', () => {
     });
   });
 
-  context('with \'text\' type', () => {
+  context('when birth date field rendering', () => {
+    const birthDateField = makeSignUpField('birthDate');
+
+    it('renders information icon', () => {
+      const { queryByText } = renderSignUpField({ field: birthDateField });
+
+      expect(queryByText('birth-date-tooltip')).not.toBeNull();
+    });
+  });
+
+  context('when type is undefined', () => {
     const { label } = defaultSignUpField;
 
-    it('renders matched type input', () => {
+    it('renders text type input', () => {
       const { getByLabelText } = renderSignUpField();
 
       expect(getByLabelText(label)).toHaveAttribute('type', 'text');
@@ -108,5 +125,41 @@ describe('SignUpInput', () => {
     const { getByLabelText } = renderSignUpField({ value });
 
     expect(getByLabelText(label)).toHaveValue(value);
+  });
+
+  context('with \'birth date\' field', () => {
+    const birthDateField = makeSignUpField('birthDate');
+
+    it('listens to mouse leave event', () => {
+      const { getByTestId } = renderSignUpField({ field: birthDateField });
+
+      fireEvent.mouseLeave(getByTestId('birth-date-tooltip-wrap'));
+
+      expect(handleMouseLeave).toBeCalled();
+    });
+
+    it('listens to blur event', () => {
+      const { getByTestId } = renderSignUpField({ field: birthDateField });
+
+      fireEvent.blur(getByTestId('birth-date-tooltip-wrap'));
+
+      expect(handleMouseLeave).toBeCalled();
+    });
+
+    it('listens to mouse over event', () => {
+      const { getByText } = renderSignUpField({ field: birthDateField });
+
+      fireEvent.mouseOver(getByText('birth-date-tooltip'));
+
+      expect(handleMouseOver).toBeCalled();
+    });
+
+    it('listens to focus in event', () => {
+      const { getByText } = renderSignUpField({ field: birthDateField });
+
+      fireEvent.focusIn(getByText('birth-date-tooltip'));
+
+      expect(handleMouseOver).toBeCalled();
+    });
   });
 });
