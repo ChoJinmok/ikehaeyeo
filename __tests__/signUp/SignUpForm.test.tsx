@@ -30,8 +30,8 @@ describe('SignUpForm', () => {
     handleMouseLeave.mockClear();
   });
 
-  it('renders sign up controls', () => {
-    const { queryByLabelText } = renderSignUpForm();
+  it('renders sign up controls & buttons', () => {
+    const { queryByLabelText, queryByText } = renderSignUpForm();
 
     SIGN_UP_FIELDS.forEach(
       ({ name, label }) => {
@@ -41,6 +41,8 @@ describe('SignUpForm', () => {
         expect(signUpInput).toHaveValue(signUpFields[name]);
       },
     );
+
+    expect(queryByText('우편번호 찾기')).not.toBeNull();
   });
 
   it('listens change events', () => {

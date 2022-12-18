@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, Fragment } from 'react';
 
 import SignUpField from './SignUpField';
 
@@ -23,15 +23,24 @@ function SignUpForm({
         const { name } = signUpField;
 
         return (
-          <SignUpField
-            key={name}
-            field={signUpField}
-            value={signUpFields[name]}
-            onChange={onChange}
-            isMouseOver={isMouseOver}
-            onMouseOver={onMouseOver}
-            onMouseLeave={onMouseLeave}
-          />
+          <Fragment key={name}>
+            {name === 'streetNameAddress' && (
+              <button
+                type="button"
+              >
+                우편번호 찾기
+              </button>
+            )}
+
+            <SignUpField
+              field={signUpField}
+              value={signUpFields[name]}
+              onChange={onChange}
+              isMouseOver={isMouseOver}
+              onMouseOver={onMouseOver}
+              onMouseLeave={onMouseLeave}
+            />
+          </Fragment>
         );
       })}
     </form>
