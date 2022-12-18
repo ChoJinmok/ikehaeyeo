@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import BirthDateTooltip from './BirthDateTooltip';
 import SignUpFieldController from './SignUpFieldController';
 
@@ -39,6 +41,14 @@ export default function SignUpField(
       )}
 
       {name === 'phoneNumber' && <span>KR (+82)</span>}
+
+      {name === 'gender' && (
+        <FontAwesomeIcon
+          icon={faChevronDown}
+          aria-hidden="true"
+          data-testid="chevron-down-icon"
+        />
+      )}
 
       <label htmlFor={id}>
         {label}

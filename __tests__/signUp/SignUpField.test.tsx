@@ -96,9 +96,10 @@ describe('SignUpField', () => {
     it('renders gender field', () => {
       const genderField = makeSignUpField('gender');
 
-      const { getByLabelText } = renderSignUpField({ field: genderField });
+      const { getByLabelText, queryByTestId } = renderSignUpField({ field: genderField });
 
       expect(getByLabelText(genderField.label)).toContainHTML('<select');
+      expect(queryByTestId('chevron-down-icon')).not.toBeNull();
     });
   });
 
