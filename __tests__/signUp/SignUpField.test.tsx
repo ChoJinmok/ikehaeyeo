@@ -7,7 +7,7 @@ import makeSignUpField from '../../utils/makeSignUpField';
 
 import { ValueOfSignUpFields } from '../../components/signUp/type';
 
-describe('SignUpInput', () => {
+describe('SignUpField', () => {
   const handleChange = jest.fn();
   const handleMouseOver = jest.fn();
   const handleMouseLeave = jest.fn();
@@ -54,9 +54,9 @@ describe('SignUpInput', () => {
     const birthDateField = makeSignUpField('birthDate');
 
     it('renders information icon', () => {
-      const { queryByText } = renderSignUpField({ field: birthDateField });
+      const { queryByTestId } = renderSignUpField({ field: birthDateField });
 
-      expect(queryByText('birth-date-tooltip')).not.toBeNull();
+      expect(queryByTestId('birth-date-tooltip-icon')).not.toBeNull();
     });
   });
 
@@ -147,17 +147,17 @@ describe('SignUpInput', () => {
     });
 
     it('listens to mouse over event', () => {
-      const { getByText } = renderSignUpField({ field: birthDateField });
+      const { getByTestId } = renderSignUpField({ field: birthDateField });
 
-      fireEvent.mouseOver(getByText('birth-date-tooltip'));
+      fireEvent.mouseOver(getByTestId('birth-date-tooltip-icon'));
 
       expect(handleMouseOver).toBeCalled();
     });
 
     it('listens to focus in event', () => {
-      const { getByText } = renderSignUpField({ field: birthDateField });
+      const { getByTestId } = renderSignUpField({ field: birthDateField });
 
-      fireEvent.focusIn(getByText('birth-date-tooltip'));
+      fireEvent.focusIn(getByTestId('birth-date-tooltip-icon'));
 
       expect(handleMouseOver).toBeCalled();
     });

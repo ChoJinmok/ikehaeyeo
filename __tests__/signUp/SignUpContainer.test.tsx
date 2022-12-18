@@ -87,17 +87,17 @@ describe('SignUpContainer', () => {
   });
 
   it('listens mouse over event', () => {
-    const { getByText } = render(<SignUpContainer />);
+    const { getByTestId } = render(<SignUpContainer />);
 
-    fireEvent.mouseOver((getByText('birth-date-tooltip')));
+    fireEvent.mouseOver((getByTestId('birth-date-tooltip-icon')));
 
     expect(setState).toBeCalledWith(true);
   });
 
   it('listens to focus in event', () => {
-    const { getByText } = render(<SignUpContainer />);
+    const { getByTestId } = render(<SignUpContainer />);
 
-    fireEvent.focusIn(getByText('birth-date-tooltip'));
+    fireEvent.focusIn(getByTestId('birth-date-tooltip-icon'));
 
     expect(setState).toBeCalledWith(true);
   });

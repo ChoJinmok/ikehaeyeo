@@ -22,30 +22,30 @@ describe('BirthDateTooltip', () => {
   });
 
   it('renders birth date tooltip icon', () => {
-    const { queryByText } = renderBirthDateTooltip();
+    const { queryByTestId } = renderBirthDateTooltip();
 
-    expect(queryByText('birth-date-tooltip')).not.toBeNull();
+    expect(queryByTestId('birth-date-tooltip-icon')).not.toBeNull();
   });
 
-  context('when birth date tooltip icon is active', () => {
+  context('when birth date tooltip icon is not active', () => {
     it('renders birth date tooltip icon', () => {
-      const { queryByText } = renderBirthDateTooltip();
+      const { getByText } = renderBirthDateTooltip();
 
-      expect(queryByText(/14세/)).toBeNull();
+      expect(getByText(/14세/)).not.toBeVisible();
     });
 
     it('listens to mouse over event', () => {
-      const { getByText } = renderBirthDateTooltip();
+      const { getByTestId } = renderBirthDateTooltip();
 
-      fireEvent.mouseOver(getByText('birth-date-tooltip'));
+      fireEvent.mouseOver(getByTestId('birth-date-tooltip-icon'));
 
       expect(handleMouseOver).toBeCalled();
     });
 
     it('listens to focus in event', () => {
-      const { getByText } = renderBirthDateTooltip();
+      const { getByTestId } = renderBirthDateTooltip();
 
-      fireEvent.focusIn(getByText('birth-date-tooltip'));
+      fireEvent.mouseOver(getByTestId('birth-date-tooltip-icon'));
 
       expect(handleMouseOver).toBeCalled();
     });
@@ -53,9 +53,9 @@ describe('BirthDateTooltip', () => {
 
   context('when birth date tooltip icon is active', () => {
     it('renders birth date tooltip information', () => {
-      const { queryByText } = renderBirthDateTooltip(true);
+      const { getByText } = renderBirthDateTooltip(true);
 
-      expect(queryByText(/14세/)).not.toBeNull();
+      expect(getByText(/14세/)).toBeVisible();
     });
 
     it('listens to mouse leave event', () => {

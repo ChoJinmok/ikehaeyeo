@@ -76,17 +76,17 @@ describe('SignUpForm', () => {
   });
 
   it('listens to mouse over event', () => {
-    const { getByText } = renderSignUpForm();
+    const { getByTestId } = renderSignUpForm();
 
-    fireEvent.mouseOver(getByText('birth-date-tooltip'));
+    fireEvent.mouseOver(getByTestId('birth-date-tooltip-icon'));
 
     expect(handleMouseOver).toBeCalled();
   });
 
   it('listens to focus in event', () => {
-    const { getByText } = renderSignUpForm();
+    const { getByTestId } = renderSignUpForm();
 
-    fireEvent.focusIn(getByText('birth-date-tooltip'));
+    fireEvent.focusIn(getByTestId('birth-date-tooltip-icon'));
 
     expect(handleMouseOver).toBeCalled();
   });
