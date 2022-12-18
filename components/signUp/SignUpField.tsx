@@ -15,7 +15,9 @@ interface SignUpInputProps {
 
 export default function SignUpField(
   {
-    field: { name, label, type },
+    field: {
+      name, label, type, placeholder,
+    },
     value,
     onChange,
     isMouseOver,
@@ -46,6 +48,7 @@ export default function SignUpField(
         type={type}
         name={name}
         value={value}
+        placeholder={placeholder}
         onChange={onChange}
       />
     </div>

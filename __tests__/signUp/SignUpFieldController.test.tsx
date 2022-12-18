@@ -16,10 +16,11 @@ describe('SignUpFieldController', () => {
     type?: SignUpField['type'];
     name?: SignUpField['name'];
     value?: ValueOfSignUpFields;
+    placeholder?: string;
   }
 
   function renderSignUpFieldController({
-    type, name = 'name', value = '',
+    type, name = 'name', value = '', placeholder,
   }: RenderSignUpFieldControllerParams = {}) {
     return render(
       <SignUpFieldController
@@ -27,6 +28,7 @@ describe('SignUpFieldController', () => {
         type={type}
         name={name}
         value={value}
+        placeholder={placeholder}
         onChange={handleChange}
       />,
     );
@@ -122,6 +124,26 @@ describe('SignUpFieldController', () => {
       const { getByRole } = renderSignUpFieldController({ value });
 
       expect(getByRole('textbox')).toHaveValue(value);
+    });
+  });
+
+  context('when field has placeholder', () => {
+    const { placeholder } = makeSignUpField('password');
+
+    it('renders placeholder', () => {
+      const { queryByPlaceholderText } = renderSignUpFieldController({
+        placeholder,
+      });
+
+      expect(queryByPlaceholderText(placeholder as string)).not.toBeNull();
+    });
+  });
+
+  context('when field doesn\'t have placeholder', () => {
+    it('doesn\'t render placeholder', () => {
+      const { getByRole } = renderSignUpFieldController();
+
+      expect(getByRole('textbox')).not.toHaveAttribute('placeholder');
     });
   });
 });

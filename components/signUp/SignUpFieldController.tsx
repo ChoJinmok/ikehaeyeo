@@ -8,14 +8,15 @@ import { HandleChange, ValueOfSignUpFields } from './type';
 
 interface SignUpFieldControllerProps {
   id: string;
-  type: SignUpField['type'];
+  type?: SignUpField['type'];
   name: SignUpField['name'];
   value: ValueOfSignUpFields;
+  placeholder?: string;
   onChange: HandleChange;
 }
 
 export default function SignUpFieldController({
-  id, type = 'text', name, value, onChange,
+  id, type, name, value, placeholder, onChange,
 }: SignUpFieldControllerProps) {
   function handleChange(
     { target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -46,6 +47,7 @@ export default function SignUpFieldController({
       id={id}
       name={name}
       value={value}
+      placeholder={placeholder && placeholder}
       onChange={handleChange}
       data-testid={
         type === 'text' ? null : `${type}-input`
@@ -53,3 +55,8 @@ export default function SignUpFieldController({
     />
   );
 }
+
+SignUpFieldController.defaultProps = {
+  type: 'text',
+  placeholder: undefined,
+};
