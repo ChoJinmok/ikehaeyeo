@@ -1,7 +1,7 @@
 import { SignUpFields } from '../../store/modules/signUpSlice';
 
 export interface HandleChangeParameter {
-  name: string;
+  name: keyof SignUpFields;
   value: string;
 }
 

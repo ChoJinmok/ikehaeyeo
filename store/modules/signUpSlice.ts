@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface SignUpFields {
   name: string;
@@ -30,13 +30,21 @@ export const initialState: SignUpState = {
   },
 };
 
+interface ChangeSignUpFieldPayload {
+  name: keyof SignUpFields;
+  value: SignUpFields[keyof SignUpFields];
+}
+
 const { actions, reducer } = createSlice({
   name: 'signUp',
 
   initialState,
 
   reducers: {
-    changeSignUpField(state, { payload: { name, value } }) {
+    changeSignUpField(
+      state,
+      { payload: { name, value } }: PayloadAction<ChangeSignUpFieldPayload>,
+    ) {
       return {
         ...state,
         signUpFields: {
