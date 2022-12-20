@@ -25,9 +25,7 @@ function SignUpForm({
         return (
           <Fragment key={name}>
             {name === 'streetNameAddress' && (
-              <button
-                type="button"
-              >
+              <button type="button">
                 우편번호 찾기
               </button>
             )}

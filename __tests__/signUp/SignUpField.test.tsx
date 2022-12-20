@@ -163,4 +163,14 @@ describe('SignUpField', () => {
       expect(handleMouseOver).toBeCalled();
     });
   });
+
+  context('with \'password\' field', () => {
+    const passwordField = makeSignUpField('password');
+
+    it('renders password toggle button', () => {
+      const { queryByText } = renderSignUpField({ field: passwordField });
+
+      expect(queryByText('비밀번호 표시하기')).not.toBeNull();
+    });
+  });
 });

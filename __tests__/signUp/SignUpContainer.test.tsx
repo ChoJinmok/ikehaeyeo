@@ -44,8 +44,7 @@ describe('SignUpContainer', () => {
     dispatch.mockClear();
 
     mockedUseState.mockImplementation(
-      // eslint-disable-next-line @typescript-eslint/comma-dangle
-      <T, >(initialState: T) => [initialState, setState],
+      (initialState) => [initialState, setState],
     );
 
     mockedUseDispatch.mockImplementation(() => dispatch);

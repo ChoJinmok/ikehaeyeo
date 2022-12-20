@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+
 import BirthDateTooltip from './BirthDateTooltip';
 import SignUpFieldController from './SignUpFieldController';
 
@@ -48,6 +50,24 @@ export default function SignUpField(
           aria-hidden="true"
           data-testid="chevron-down-icon"
         />
+      )}
+
+      {name === 'password' && (
+        <button
+          type="button"
+          aria-labelledby="show-password"
+        >
+          <FontAwesomeIcon
+            icon={faEye}
+            aria-hidden="true"
+          />
+          <span
+            id="show-password"
+            hidden
+          >
+            비밀번호 표시하기
+          </span>
+        </button>
       )}
 
       <label htmlFor={id}>
