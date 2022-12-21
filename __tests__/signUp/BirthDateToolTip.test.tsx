@@ -59,7 +59,7 @@ describe('BirthDateTooltip', () => {
     });
 
     it('listens to mouse leave event', () => {
-      const { getByTestId } = renderBirthDateTooltip();
+      const { getByTestId } = renderBirthDateTooltip(true);
 
       fireEvent.mouseLeave(getByTestId('birth-date-tooltip-wrap'));
 
@@ -67,7 +67,7 @@ describe('BirthDateTooltip', () => {
     });
 
     it('listens to blur event', () => {
-      const { getByTestId } = renderBirthDateTooltip();
+      const { getByTestId } = renderBirthDateTooltip(true);
 
       fireEvent.blur(getByTestId('birth-date-tooltip-wrap'));
 

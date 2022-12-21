@@ -6,8 +6,8 @@ import makeSignUpField from '../../utils/makeSignUpField';
 
 import genderOptions from '../../fixtures/genderOptions';
 
-import { SignUpField } from '../../fixtures/signUpFields';
-import { ValueOfSignUpFields } from '../../components/signUp/type';
+import type { SignUpField } from '../../fixtures/signUpFields';
+import type { ValueOfSignUpFields } from '../../components/signUp/type';
 
 describe('SignUpFieldController', () => {
   const handleChange = jest.fn();
@@ -22,13 +22,15 @@ describe('SignUpFieldController', () => {
   function renderSignUpFieldController({
     type, name = 'name', value = '', placeholder,
   }: RenderSignUpFieldControllerParams = {}) {
+    const id = `signUp-${name}`;
+
     return render(
       <SignUpFieldController
-        id={`signUp-${name}`}
-        type={type}
+        id={id}
         name={name}
-        value={value}
+        type={type}
         placeholder={placeholder}
+        value={value}
         onChange={handleChange}
       />,
     );
@@ -61,8 +63,6 @@ describe('SignUpFieldController', () => {
 
       const genderSelect = getByTestId('gender-select');
 
-      expect(genderSelect).toHaveValue('');
-
       fireEvent.change(
         genderSelect,
         { target: { value } },
@@ -81,26 +81,12 @@ describe('SignUpFieldController', () => {
   });
 
   context('excluding gender controller', () => {
-    const type = 'password';
+    it('renders controller value', () => {
+      const value = 'test';
 
-    context('with type other than \'text\'', () => {
-      it('renders matched type input', () => {
-        const { getByTestId } = renderSignUpFieldController({
-          type,
-        });
+      const { getByRole } = renderSignUpFieldController({ value });
 
-        expect(getByTestId(`${type}-input`)).toHaveAttribute('type', type);
-      });
-    });
-
-    context('with text type', () => {
-      it('renders textbox', () => {
-        const { queryByRole } = renderSignUpFieldController();
-
-        const signUpInput = queryByRole('textbox');
-
-        expect(signUpInput).not.toBeNull();
-      });
+      expect(getByRole('textbox')).toHaveValue(value);
     });
 
     it('listens change events', () => {
@@ -118,32 +104,46 @@ describe('SignUpFieldController', () => {
       );
     });
 
-    it('renders controller value', () => {
-      const value = 'test';
+    context('with type other than \'text\'', () => {
+      const types: Array<SignUpField['type']> = ['password', 'tel', 'email', 'number'];
 
-      const { getByRole } = renderSignUpFieldController({ value });
+      it('renders matched type input', () => {
+        types.forEach((type) => {
+          const { getByTestId } = renderSignUpFieldController({ type });
 
-      expect(getByRole('textbox')).toHaveValue(value);
-    });
-  });
-
-  context('when field has placeholder', () => {
-    const { placeholder } = makeSignUpField('password');
-
-    it('renders placeholder', () => {
-      const { queryByPlaceholderText } = renderSignUpFieldController({
-        placeholder,
+          expect(getByTestId(`${type}-input`)).toHaveAttribute('type', type);
+        });
       });
-
-      expect(queryByPlaceholderText(placeholder as string)).not.toBeNull();
     });
-  });
 
-  context('when field doesn\'t have placeholder', () => {
-    it('doesn\'t render placeholder', () => {
-      const { getByRole } = renderSignUpFieldController();
+    context('with text type', () => {
+      it('renders textbox', () => {
+        const { queryByRole } = renderSignUpFieldController();
 
-      expect(getByRole('textbox')).not.toHaveAttribute('placeholder');
+        const signUpInput = queryByRole('textbox');
+
+        expect(signUpInput).not.toBeNull();
+      });
+    });
+
+    context('when field has placeholder', () => {
+      const { placeholder } = makeSignUpField('password');
+
+      it('renders placeholder', () => {
+        const { queryByPlaceholderText } = renderSignUpFieldController({
+          placeholder,
+        });
+
+        expect(queryByPlaceholderText(placeholder as string)).not.toBeNull();
+      });
+    });
+
+    context('when field doesn\'t have placeholder', () => {
+      it('doesn\'t render placeholder', () => {
+        const { getByRole } = renderSignUpFieldController();
+
+        expect(getByRole('textbox')).not.toHaveAttribute('placeholder');
+      });
     });
   });
 });

@@ -2,108 +2,55 @@ import { render, fireEvent } from '@testing-library/react';
 
 import SignUpField from '../../components/signUp/SignUpField';
 
-import signUpFields, { SignUpField as SignUpFieldType } from '../../fixtures/signUpFields';
+import signUpFields from '../../fixtures/signUpFields';
 import makeSignUpField from '../../utils/makeSignUpField';
 
-import { ValueOfSignUpFields } from '../../components/signUp/type';
+import type { SignUpField as SignUpFieldType } from '../../fixtures/signUpFields';
+import type { ValueOfSignUpFields } from '../../components/signUp/type';
 
 describe('SignUpField', () => {
-  const handleChange = jest.fn();
-  const handleMouseOver = jest.fn();
-  const handleMouseLeave = jest.fn();
+  const handleChangeController = jest.fn();
+  const handleMouseOverBirthDateToolTip = jest.fn();
+  const handleMouseLeaveBirthDateToolTip = jest.fn();
   const [defaultSignUpField] = signUpFields;
 
   interface RenderSignUpFieldParams {
     field?: SignUpFieldType;
     value?: ValueOfSignUpFields;
+    isMouseOverBirthDateToolTip?: boolean;
   }
 
   function renderSignUpField(
-    { field = defaultSignUpField, value = '' }
+    { field = defaultSignUpField, value = '', isMouseOverBirthDateToolTip = false }
     : RenderSignUpFieldParams = {},
   ) {
     return render(
       <SignUpField
         field={field}
         value={value}
-        onChange={handleChange}
-        isMouseOver={false}
-        onMouseOver={handleMouseOver}
-        onMouseLeave={handleMouseLeave}
+        onChangeController={handleChangeController}
+        isMouseOverBirthDateToolTip={isMouseOverBirthDateToolTip}
+        onMouseOverBirthDateToolTip={handleMouseOverBirthDateToolTip}
+        onMouseLeaveBirthDateToolTip={handleMouseLeaveBirthDateToolTip}
       />,
     );
   }
 
   beforeEach(() => {
-    handleChange.mockClear();
-    handleMouseOver.mockClear();
-    handleMouseLeave.mockClear();
+    handleChangeController.mockClear();
+    handleMouseOverBirthDateToolTip.mockClear();
+    handleMouseLeaveBirthDateToolTip.mockClear();
   });
 
-  context('excluding \'gender\' field', () => {
-    it('renders label and field\'s control', () => {
-      const { label } = defaultSignUpField;
-
-      const { getByLabelText } = renderSignUpField();
-
-      expect(getByLabelText(label)).toContainHTML('<input');
-    });
-  });
-
-  context('when birth date field rendering', () => {
-    const birthDateField = makeSignUpField('birthDate');
-
-    it('renders information icon', () => {
-      const { queryByTestId } = renderSignUpField({ field: birthDateField });
-
-      expect(queryByTestId('birth-date-tooltip-icon')).not.toBeNull();
-    });
-  });
-
-  context('when type is undefined', () => {
+  it('renders label & controller', () => {
     const { label } = defaultSignUpField;
 
-    it('renders text type input', () => {
-      const { getByLabelText } = renderSignUpField();
+    const { queryByLabelText } = renderSignUpField();
 
-      expect(getByLabelText(label)).toHaveAttribute('type', 'text');
-    });
+    expect(queryByLabelText(label)).not.toBeNull();
   });
 
-  context('with type other than \'text\'', () => {
-    const passwordField = makeSignUpField('password');
-
-    const { label, type } = passwordField;
-
-    it('renders matched type input', () => {
-      const { getByLabelText } = renderSignUpField({ field: passwordField });
-
-      expect(getByLabelText(label)).toHaveAttribute('type', type);
-    });
-  });
-
-  context('when \'phone number\' field renders', () => {
-    const phoneNumberField = makeSignUpField('phoneNumber');
-
-    it('renders \'KR (+82)\' & \'tel\' type input', () => {
-      const { queryByText } = renderSignUpField({ field: phoneNumberField });
-
-      expect(queryByText('KR (+82)')).not.toBeNull();
-    });
-  });
-
-  context('with \'gender\' field', () => {
-    it('renders gender field', () => {
-      const genderField = makeSignUpField('gender');
-
-      const { getByLabelText, queryByTestId } = renderSignUpField({ field: genderField });
-
-      expect(getByLabelText(genderField.label)).toContainHTML('<select');
-      expect(queryByTestId('chevron-down-icon')).not.toBeNull();
-    });
-  });
-
-  it('listens change events', () => {
+  it('listens change controller events', () => {
     const targetValue = 'test';
     const { name, label } = defaultSignUpField;
 
@@ -114,7 +61,7 @@ describe('SignUpField', () => {
       { target: { value: targetValue } },
     );
 
-    expect(handleChange).toBeCalledWith(
+    expect(handleChangeController).toBeCalledWith(
       { name, value: targetValue },
     );
   });
@@ -128,39 +75,84 @@ describe('SignUpField', () => {
     expect(getByLabelText(label)).toHaveValue(value);
   });
 
+  it('renders input with placeholder & type', () => {
+    const passwordField = makeSignUpField('password');
+    const { type, placeholder } = passwordField;
+
+    const { queryByPlaceholderText } = renderSignUpField({ field: passwordField });
+
+    expect(queryByPlaceholderText(placeholder as string)).toHaveAttribute('type', type);
+  });
+
   context('with \'birth date\' field', () => {
     const birthDateField = makeSignUpField('birthDate');
 
-    it('listens to mouse leave event', () => {
-      const { getByTestId } = renderSignUpField({ field: birthDateField });
+    it('renders information icon', () => {
+      const { queryByTestId } = renderSignUpField({ field: birthDateField });
 
-      fireEvent.mouseLeave(getByTestId('birth-date-tooltip-wrap'));
-
-      expect(handleMouseLeave).toBeCalled();
+      expect(queryByTestId('birth-date-tooltip-icon')).not.toBeNull();
     });
 
-    it('listens to blur event', () => {
-      const { getByTestId } = renderSignUpField({ field: birthDateField });
+    context('when birth date tooltip icon is not active', () => {
+      it('renders birth date tooltip icon', () => {
+        const { getByText } = renderSignUpField({ field: birthDateField });
 
-      fireEvent.blur(getByTestId('birth-date-tooltip-wrap'));
+        expect(getByText(/14세/)).not.toBeVisible();
+      });
 
-      expect(handleMouseLeave).toBeCalled();
+      it('listens to mouse over event', () => {
+        const { getByTestId } = renderSignUpField({ field: birthDateField });
+
+        fireEvent.mouseOver(getByTestId('birth-date-tooltip-icon'));
+
+        expect(handleMouseOverBirthDateToolTip).toBeCalled();
+      });
     });
 
-    it('listens to mouse over event', () => {
-      const { getByTestId } = renderSignUpField({ field: birthDateField });
+    context('when birth date tooltip icon is active', () => {
+      const isMouseOverBirthDateToolTip = true;
 
-      fireEvent.mouseOver(getByTestId('birth-date-tooltip-icon'));
+      it('renders birth date tooltip information', () => {
+        const { getByText } = renderSignUpField({
+          field: birthDateField,
+          isMouseOverBirthDateToolTip,
+        });
 
-      expect(handleMouseOver).toBeCalled();
+        expect(getByText(/14세/)).toBeVisible();
+      });
+
+      it('listens to mouse leave event', () => {
+        const { getByTestId } = renderSignUpField({
+          field: birthDateField,
+          isMouseOverBirthDateToolTip,
+        });
+
+        fireEvent.mouseLeave(getByTestId('birth-date-tooltip-wrap'));
+
+        expect(handleMouseLeaveBirthDateToolTip).toBeCalled();
+      });
     });
+  });
 
-    it('listens to focus in event', () => {
-      const { getByTestId } = renderSignUpField({ field: birthDateField });
+  context('with \'phone number\' field', () => {
+    const phoneNumberField = makeSignUpField('phoneNumber');
 
-      fireEvent.focusIn(getByTestId('birth-date-tooltip-icon'));
+    it('renders \'KR (+82)\' text', () => {
+      const { queryByText } = renderSignUpField({ field: phoneNumberField });
 
-      expect(handleMouseOver).toBeCalled();
+      expect(queryByText('KR (+82)')).not.toBeNull();
+    });
+  });
+
+  context('with \'gender\' field', () => {
+    const genderField = makeSignUpField('gender');
+
+    it('renders chevron down icon', () => {
+      const { queryByTestId } = renderSignUpField({ field: genderField });
+
+      const chevronIcon = queryByTestId('chevron-down-icon');
+
+      expect(chevronIcon).not.toBeNull();
     });
   });
 

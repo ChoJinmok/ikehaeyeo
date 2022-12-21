@@ -2,9 +2,8 @@ import { ChangeEvent } from 'react';
 
 import genderOptions from '../../fixtures/genderOptions';
 
-import { SignUpField } from '../../fixtures/signUpFields';
-
-import { HandleChange, ValueOfSignUpFields } from './type';
+import type { SignUpField } from '../../fixtures/signUpFields';
+import type { HandleChangeController, ValueOfSignUpFields } from './type';
 
 interface SignUpFieldControllerProps {
   id: string;
@@ -12,7 +11,7 @@ interface SignUpFieldControllerProps {
   name: SignUpField['name'];
   value: ValueOfSignUpFields;
   placeholder?: string;
-  onChange: HandleChange;
+  onChange: HandleChangeController;
 }
 
 export default function SignUpFieldController({

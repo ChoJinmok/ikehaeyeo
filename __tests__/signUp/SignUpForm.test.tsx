@@ -6,46 +6,48 @@ import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
 import { initialState } from '../../store/modules/signUpSlice';
 
 describe('SignUpForm', () => {
-  const handleChange = jest.fn();
-  const handleMouseOver = jest.fn();
-  const handleMouseLeave = jest.fn();
+  const handleChangeController = jest.fn();
+  const handleMouseOverBirthDateToolTip = jest.fn();
+  const handleMouseLeaveBirthDateToolTip = jest.fn();
 
   const { signUpFields } = initialState;
 
-  function renderSignUpForm() {
+  function renderSignUpForm(isMouseOverBirthDateToolTip = false) {
     return render(
       <SignUpForm
         signUpFields={signUpFields}
-        onChange={handleChange}
-        isMouseOver={false}
-        onMouseOver={handleMouseOver}
-        onMouseLeave={handleMouseLeave}
+        onChangeController={handleChangeController}
+        isMouseOverBirthDateToolTip={isMouseOverBirthDateToolTip}
+        onMouseOverBirthDateToolTip={handleMouseOverBirthDateToolTip}
+        onMouseLeaveBirthDateToolTip={handleMouseLeaveBirthDateToolTip}
       />,
     );
   }
 
   beforeEach(() => {
-    handleChange.mockClear();
-    handleMouseOver.mockClear();
-    handleMouseLeave.mockClear();
+    handleChangeController.mockClear();
+    handleMouseOverBirthDateToolTip.mockClear();
+    handleMouseLeaveBirthDateToolTip.mockClear();
   });
 
-  it('renders sign up controls & buttons', () => {
+  it('renders sign up controllers & searching zip code button', () => {
     const { queryByLabelText, queryByText } = renderSignUpForm();
 
     SIGN_UP_FIELDS.forEach(
       ({ name, label }) => {
-        const signUpInput = queryByLabelText(label);
+        const signUpController = queryByLabelText(label);
 
-        expect(signUpInput).not.toBeNull();
-        expect(signUpInput).toHaveValue(signUpFields[name]);
+        expect(signUpController).not.toBeNull();
+        expect(signUpController).toHaveValue(signUpFields[name]);
       },
     );
 
-    expect(queryByText('우편번호 찾기')).not.toBeNull();
+    const searchingZipCodeButton = queryByText('우편번호 찾기');
+
+    expect(searchingZipCodeButton).not.toBeNull();
   });
 
-  it('listens change events', () => {
+  it('listens change controller events', () => {
     const [{ name, label }] = SIGN_UP_FIELDS;
     const targetValue = 'test';
 
@@ -55,41 +57,25 @@ describe('SignUpForm', () => {
       target: { value: targetValue },
     });
 
-    expect(handleChange).toBeCalledWith({
+    expect(handleChangeController).toBeCalledWith({
       name,
       value: targetValue,
     });
   });
 
-  it('listens to mouse leave event', () => {
+  it('listens to mouse leave birth date tool tip event', () => {
     const { getByTestId } = renderSignUpForm();
 
     fireEvent.mouseLeave(getByTestId('birth-date-tooltip-wrap'));
 
-    expect(handleMouseLeave).toBeCalled();
+    expect(handleMouseLeaveBirthDateToolTip).toBeCalled();
   });
 
-  it('listens to blur event', () => {
-    const { getByTestId } = renderSignUpForm();
-
-    fireEvent.blur(getByTestId('birth-date-tooltip-wrap'));
-
-    expect(handleMouseLeave).toBeCalled();
-  });
-
-  it('listens to mouse over event', () => {
+  it('listens to mouse over birth date tool tip event', () => {
     const { getByTestId } = renderSignUpForm();
 
     fireEvent.mouseOver(getByTestId('birth-date-tooltip-icon'));
 
-    expect(handleMouseOver).toBeCalled();
-  });
-
-  it('listens to focus in event', () => {
-    const { getByTestId } = renderSignUpForm();
-
-    fireEvent.focusIn(getByTestId('birth-date-tooltip-icon'));
-
-    expect(handleMouseOver).toBeCalled();
+    expect(handleMouseOverBirthDateToolTip).toBeCalled();
   });
 });

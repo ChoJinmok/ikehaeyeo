@@ -2,20 +2,25 @@ import { memo, Fragment } from 'react';
 
 import SignUpField from './SignUpField';
 
-import { SignUpFields } from '../../store/modules/signUpSlice';
 import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
-import { HandleChange } from './type';
+
+import type { SignUpFields } from '../../store/modules/signUpSlice';
+import type { HandleChangeController } from './type';
 
 interface SignUpFormProps {
   signUpFields: SignUpFields;
-  onChange: HandleChange;
-  isMouseOver: boolean;
-  onMouseOver: () => void;
-  onMouseLeave: () => void;
+  onChangeController: HandleChangeController;
+  isMouseOverBirthDateToolTip: boolean;
+  onMouseOverBirthDateToolTip: () => void;
+  onMouseLeaveBirthDateToolTip: () => void;
 }
 
 function SignUpForm({
-  signUpFields, onChange, isMouseOver, onMouseOver, onMouseLeave,
+  signUpFields,
+  onChangeController,
+  isMouseOverBirthDateToolTip,
+  onMouseOverBirthDateToolTip,
+  onMouseLeaveBirthDateToolTip,
 }: SignUpFormProps) {
   return (
     <form>
@@ -33,10 +38,10 @@ function SignUpForm({
             <SignUpField
               field={signUpField}
               value={signUpFields[name]}
-              onChange={onChange}
-              isMouseOver={isMouseOver}
-              onMouseOver={onMouseOver}
-              onMouseLeave={onMouseLeave}
+              onChangeController={onChangeController}
+              isMouseOverBirthDateToolTip={isMouseOverBirthDateToolTip}
+              onMouseOverBirthDateToolTip={onMouseOverBirthDateToolTip}
+              onMouseLeaveBirthDateToolTip={onMouseLeaveBirthDateToolTip}
             />
           </Fragment>
         );

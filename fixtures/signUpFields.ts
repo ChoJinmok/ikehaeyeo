@@ -1,6 +1,6 @@
-import { HTMLInputTypeAttribute } from 'react';
+import type { HTMLInputTypeAttribute } from 'react';
 
-import { SignUpFields } from '../store/modules/signUpSlice';
+import type { SignUpFields } from '../store/modules/signUpSlice';
 
 export interface SignUpField {
   name: keyof SignUpFields;

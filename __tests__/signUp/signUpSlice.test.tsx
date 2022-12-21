@@ -2,8 +2,7 @@ import
 reducer, {
   initialState,
   changeSignUpField,
-}
-  from '../../store/modules/signUpSlice';
+} from '../../store/modules/signUpSlice';
 
 describe('signUpSlice', () => {
   describe('reducer', () => {

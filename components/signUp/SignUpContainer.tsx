@@ -4,37 +4,40 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SignUpForm from './SignUpForm';
 
-import { RootState } from '../../store';
-import { HandleChangeParameter } from './type';
-
 import { changeSignUpField } from '../../store/modules/signUpSlice';
 
+import type { RootState } from '../../store';
+import type { HandleChangeControllerParameter } from './type';
+
 export default function SignUpContainer() {
-  const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
+  const [isMouseOverBirthDateToolTip, setIsMouseOverBirthDateToolTip] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
   const { signUpFields } = useSelector(({ signUp }: RootState) => signUp);
 
-  const handleChange = useCallback(({ name, value }: HandleChangeParameter) => {
-    dispatch(changeSignUpField({ name, value }));
-  }, [dispatch]);
+  const handleChangeController = useCallback(
+    ({ name, value }: HandleChangeControllerParameter) => {
+      dispatch(changeSignUpField({ name, value }));
+    }
+    , [dispatch],
+  );
 
-  const handMouseOver = useCallback(() => {
-    setIsMouseOver(true);
-  }, [setIsMouseOver]);
+  const handleMouseOverBirthDateToolTip = useCallback(() => {
+    setIsMouseOverBirthDateToolTip(true);
+  }, [setIsMouseOverBirthDateToolTip]);
 
-  const handMouseLeave = useCallback(() => {
-    setIsMouseOver(false);
-  }, [setIsMouseOver]);
+  const handleMouseLeaveBirthDateToolTip = useCallback(() => {
+    setIsMouseOverBirthDateToolTip(false);
+  }, [setIsMouseOverBirthDateToolTip]);
 
   return (
     <SignUpForm
       signUpFields={signUpFields}
-      onChange={handleChange}
-      isMouseOver={isMouseOver}
-      onMouseOver={handMouseOver}
-      onMouseLeave={handMouseLeave}
+      onChangeController={handleChangeController}
+      isMouseOverBirthDateToolTip={isMouseOverBirthDateToolTip}
+      onMouseOverBirthDateToolTip={handleMouseOverBirthDateToolTip}
+      onMouseLeaveBirthDateToolTip={handleMouseLeaveBirthDateToolTip}
     />
   );
 }

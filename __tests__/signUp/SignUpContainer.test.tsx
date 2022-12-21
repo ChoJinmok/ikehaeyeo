@@ -8,7 +8,7 @@ import SignUpContainer from '../../components/signUp/SignUpContainer';
 
 import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
 
-import { SignUpState } from '../../store/modules/signUpSlice';
+import type { SignUpState } from '../../store/modules/signUpSlice';
 
 jest.mock('react-redux');
 
@@ -22,6 +22,9 @@ const mockedUseDispatch = useDispatch as jest.Mock<typeof useDispatch>;
 const mockedUseSelector = useSelector as jest.Mock<typeof useSelector>;
 
 describe('SignUpContainer', () => {
+  const setState = jest.fn();
+  const dispatch = jest.fn();
+
   const signUpState: SignUpState = {
     signUpFields: {
       name: 'name',
@@ -35,9 +38,6 @@ describe('SignUpContainer', () => {
       password: '1234',
     },
   };
-
-  const setState = jest.fn();
-  const dispatch = jest.fn();
 
   beforeEach(() => {
     setState.mockClear();
@@ -54,7 +54,7 @@ describe('SignUpContainer', () => {
     }));
   });
 
-  it('renders sign up controls', () => {
+  it('renders sign up form', () => {
     const { signUpFields } = signUpState;
 
     const { queryByLabelText } = render(<SignUpContainer />);
@@ -69,7 +69,7 @@ describe('SignUpContainer', () => {
     );
   });
 
-  it('listens change events', () => {
+  it('listens change controller events', () => {
     const [{ name, label }] = SIGN_UP_FIELDS;
     const targetValue = 'test';
 
@@ -85,7 +85,7 @@ describe('SignUpContainer', () => {
     });
   });
 
-  it('listens mouse over event', () => {
+  it('listens mouse over birth date tool tip event', () => {
     const { getByTestId } = render(<SignUpContainer />);
 
     fireEvent.mouseOver((getByTestId('birth-date-tooltip-icon')));
@@ -93,26 +93,10 @@ describe('SignUpContainer', () => {
     expect(setState).toBeCalledWith(true);
   });
 
-  it('listens to focus in event', () => {
-    const { getByTestId } = render(<SignUpContainer />);
-
-    fireEvent.focusIn(getByTestId('birth-date-tooltip-icon'));
-
-    expect(setState).toBeCalledWith(true);
-  });
-
-  it('listens mouse leave event', () => {
+  it('listens mouse leave birth date tool tip event', () => {
     const { getByTestId } = render(<SignUpContainer />);
 
     fireEvent.mouseLeave((getByTestId('birth-date-tooltip-wrap')));
-
-    expect(setState).toBeCalledWith(false);
-  });
-
-  it('listens to blur event', () => {
-    const { getByTestId } = render(<SignUpContainer />);
-
-    fireEvent.blur(getByTestId('birth-date-tooltip-wrap'));
 
     expect(setState).toBeCalledWith(false);
   });

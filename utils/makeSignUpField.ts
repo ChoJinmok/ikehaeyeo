@@ -1,6 +1,7 @@
-import signUpFields, { SignUpField } from '../fixtures/signUpFields';
+import signUpFields from '../fixtures/signUpFields';
 
-import { SignUpFields } from '../store/modules/signUpSlice';
+import type { SignUpField } from '../fixtures/signUpFields';
+import type { SignUpFields } from '../store/modules/signUpSlice';
 
 function makeSignUpField(filedName: keyof SignUpFields, fields = signUpFields) {
   const nonexistentFiled: SignUpField = {

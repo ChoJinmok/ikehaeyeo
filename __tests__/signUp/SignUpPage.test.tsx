@@ -24,13 +24,13 @@ describe('SignUp', () => {
     expect(container).toHaveTextContent('IKEHAEYEO Family 회원 가입');
   });
 
-  it('renders sign up fields', () => {
+  it('renders sign up form', () => {
     const { queryByLabelText } = render(<SignUp />);
 
-    SIGN_UP_FIELDS.forEach(({ label }) => {
-      const signUpInput = queryByLabelText(label);
+    const [{ label }] = SIGN_UP_FIELDS;
 
-      expect(signUpInput).not.toBeNull();
-    });
+    const signUpInput = queryByLabelText(label);
+
+    expect(signUpInput).not.toBeNull();
   });
 });

@@ -1,6 +1,6 @@
 import makeSignUpField from '../../utils/makeSignUpField';
 
-import { SignUpField } from '../../fixtures/signUpFields';
+import type { SignUpField } from '../../fixtures/signUpFields';
 
 describe('makeSignUpField', () => {
   context('without name present in signUpField', () => {
