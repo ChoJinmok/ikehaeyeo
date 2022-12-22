@@ -17,10 +17,12 @@ describe('SignUpFieldController', () => {
     name?: SignUpField['name'];
     value?: ValueOfSignUpFields;
     placeholder?: string;
+    isPasswordVisible?: boolean;
   }
 
   function renderSignUpFieldController({
     type, name = 'name', value = '', placeholder,
+    isPasswordVisible = false,
   }: RenderSignUpFieldControllerParams = {}) {
     const id = `signUp-${name}`;
 
@@ -32,6 +34,7 @@ describe('SignUpFieldController', () => {
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        isPasswordVisible={isPasswordVisible}
       />,
     );
   }
@@ -143,6 +146,28 @@ describe('SignUpFieldController', () => {
         const { getByRole } = renderSignUpFieldController();
 
         expect(getByRole('textbox')).not.toHaveAttribute('placeholder');
+      });
+    });
+
+    context('when rendering password controller', () => {
+      const { name, type } = makeSignUpField('password');
+
+      context('when password is \'not\' visible', () => {
+        it('renders \'password\' type input', () => {
+          const { queryByTestId } = renderSignUpFieldController({ name, type });
+
+          expect(queryByTestId(`${type}-input`)).not.toBeNull();
+        });
+      });
+
+      context('when password is visible', () => {
+        const isPasswordVisible = true;
+
+        it('renders \'textbox\'', () => {
+          const { queryByRole } = renderSignUpFieldController({ name, type, isPasswordVisible });
+
+          expect(queryByRole('textbox')).not.toBeNull();
+        });
       });
     });
   });

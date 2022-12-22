@@ -12,15 +12,23 @@ interface SignUpFieldControllerProps {
   value: ValueOfSignUpFields;
   placeholder?: string;
   onChange: HandleChangeController;
+  isPasswordVisible: boolean;
 }
 
 export default function SignUpFieldController({
   id, type, name, value, placeholder, onChange,
+  isPasswordVisible,
 }: SignUpFieldControllerProps) {
   function handleChange(
     { target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
     onChange({ name, value: target.value });
+  }
+
+  function makeType() {
+    if (name !== 'password') return type;
+
+    return isPasswordVisible ? 'text' : type;
   }
 
   if (name === 'gender') {
@@ -42,7 +50,7 @@ export default function SignUpFieldController({
 
   return (
     <input
-      type={type}
+      type={makeType()}
       id={id}
       name={name}
       value={value}

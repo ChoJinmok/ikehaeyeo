@@ -167,25 +167,33 @@ describe('SignUpField', () => {
 
   context('with \'password\' field', () => {
     const passwordField = makeSignUpField('password');
+    const { label } = passwordField;
 
     context('when password is \'not\' visible', () => {
-      it('renders showing password button', () => {
-        const { queryByText } = renderSignUpField({ field: passwordField });
+      const { type } = passwordField;
+      const buttonLabel = '비밀번호 표시하기';
 
-        expect(queryByText('비밀번호 표시하기')).not.toBeNull();
+      it('renders showing password button & \'password\' type input', () => {
+        const { queryByText, getByLabelText } = renderSignUpField({ field: passwordField });
+
+        expect(queryByText(buttonLabel)).not.toBeNull();
+        expect(getByLabelText(label)).toHaveAttribute('type', type);
       });
     });
 
     context('when password is visible', () => {
       const isPasswordVisible = true;
+      const type = 'text';
+      const buttonLabel = '비밀번호 숨기기';
 
-      it('renders hiding password button', () => {
-        const { queryByText } = renderSignUpField({
+      it('renders hiding password button & \'textbox\'', () => {
+        const { queryByText, getByLabelText } = renderSignUpField({
           field: passwordField,
           isPasswordVisible,
         });
 
-        expect(queryByText('비밀번호 숨기기')).not.toBeNull();
+        expect(queryByText(buttonLabel)).not.toBeNull();
+        expect(getByLabelText(label)).toHaveAttribute('type', type);
       });
     });
 

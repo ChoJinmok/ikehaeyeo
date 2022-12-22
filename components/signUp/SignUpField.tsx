@@ -73,6 +73,7 @@ export default function SignUpField(
         placeholder={placeholder}
         value={value}
         onChange={onChangeController}
+        isPasswordVisible={isPasswordVisible}
       />
     </div>
   );
