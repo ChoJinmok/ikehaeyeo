@@ -4,6 +4,8 @@ import { render, fireEvent } from '@testing-library/react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import given from 'given2';
+
 import SignUpContainer from '../../components/signUp/SignUpContainer';
 
 import SIGN_UP_FIELDS from '../../fixtures/signUpFields';
@@ -22,6 +24,11 @@ const mockedUseDispatch = useDispatch as jest.Mock<typeof useDispatch>;
 const mockedUseSelector = useSelector as jest.Mock<typeof useSelector>;
 
 describe('SignUpContainer', () => {
+  given('useStateInitialState', () => ({
+    isMouseOverBirthDateToolTip: given.isMouseOverBirthDateToolTip ?? false,
+    isPasswordVisible: given.isPasswordVisible ?? false,
+  }));
+
   const setState = jest.fn();
   const dispatch = jest.fn();
 
@@ -44,7 +51,7 @@ describe('SignUpContainer', () => {
     dispatch.mockClear();
 
     mockedUseState.mockImplementation(
-      (initialState) => [initialState, setState],
+      () => [given.useStateInitialState, setState],
     );
 
     mockedUseDispatch.mockImplementation(() => dispatch);
@@ -85,12 +92,33 @@ describe('SignUpContainer', () => {
     });
   });
 
+  context('when mouse is over birth date tooltip', () => {
+    given('isMouseOverBirthDateToolTip', () => true);
+
+    it('renders birth date tooltip text', () => {
+      const { getByText } = render(<SignUpContainer />);
+
+      expect(getByText(/14세/)).toBeVisible();
+    });
+  });
+
+  context('when mouse is not over birth date tooltip', () => {
+    it('renders birth date tooltip text', () => {
+      const { getByText } = render(<SignUpContainer />);
+
+      expect(getByText(/14세/)).not.toBeVisible();
+    });
+  });
+
   it('listens mouse over birth date tool tip event', () => {
     const { getByTestId } = render(<SignUpContainer />);
 
     fireEvent.mouseOver((getByTestId('birth-date-tooltip-icon')));
 
-    expect(setState).toBeCalledWith(true);
+    expect(setState).toBeCalledWith({
+      ...given.useStateInitialState,
+      isMouseOverBirthDateToolTip: true,
+    });
   });
 
   it('listens mouse leave birth date tool tip event', () => {
@@ -98,6 +126,40 @@ describe('SignUpContainer', () => {
 
     fireEvent.mouseLeave((getByTestId('birth-date-tooltip-wrap')));
 
-    expect(setState).toBeCalledWith(false);
+    expect(setState).toBeCalledWith({
+      ...given.useStateInitialState,
+      isMouseOverBirthDateToolTip: false,
+    });
+  });
+
+  context('when password is \'not\' visible', () => {
+    it('renders showing password button', () => {
+      const { queryByText } = render(<SignUpContainer />);
+
+      expect(queryByText('비밀번호 표시하기')).not.toBeNull();
+    });
+  });
+
+  context('when password is visible', () => {
+    given('isPasswordVisible', () => true);
+
+    it('renders hiding password button', () => {
+      const { queryByText } = render(<SignUpContainer />);
+
+      expect(queryByText('비밀번호 숨기기')).not.toBeNull();
+    });
+  });
+
+  it('listens to click password visible toggle button', () => {
+    const { isPasswordVisible } = given.useStateInitialState;
+
+    const { getByText } = render(<SignUpContainer />);
+
+    fireEvent.click(getByText('비밀번호 표시하기'));
+
+    expect(setState).toBeCalledWith({
+      ...given.useStateInitialState,
+      isPasswordVisible: !isPasswordVisible,
+    });
   });
 });

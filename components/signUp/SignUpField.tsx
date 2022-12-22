@@ -5,16 +5,18 @@ import BirthDateTooltip from './BirthDateTooltip';
 import SignUpFieldController from './SignUpFieldController';
 import PasswordVisibleToggleButton from './PasswordVisibleToggleButton';
 
-import type { SignUpField } from '../../fixtures/signUpFields';
+import type { SignUpField as SignUpFieldType } from '../../fixtures/signUpFields';
 import type { HandleChangeController, ValueOfSignUpFields } from './type';
 
 interface SignUpInputProps {
-  field: SignUpField;
+  field: SignUpFieldType;
   value: ValueOfSignUpFields;
   onChangeController: HandleChangeController;
   isMouseOverBirthDateToolTip: boolean;
   onMouseOverBirthDateToolTip: () => void;
   onMouseLeaveBirthDateToolTip: () => void;
+  isPasswordVisible: boolean;
+  onClickPasswordVisibleToggleButton:() => void;
 }
 
 export default function SignUpField(
@@ -27,6 +29,8 @@ export default function SignUpField(
     isMouseOverBirthDateToolTip,
     onMouseOverBirthDateToolTip,
     onMouseLeaveBirthDateToolTip,
+    isPasswordVisible,
+    onClickPasswordVisibleToggleButton,
   }: SignUpInputProps,
 ) {
   const id = `signUp-${name}`;
@@ -53,7 +57,10 @@ export default function SignUpField(
       )}
 
       {name === 'password' && (
-        <PasswordVisibleToggleButton />
+        <PasswordVisibleToggleButton
+          isPasswordVisible={isPasswordVisible}
+          onClick={onClickPasswordVisibleToggleButton}
+        />
       )}
 
       <label htmlFor={id}>

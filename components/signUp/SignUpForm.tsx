@@ -13,6 +13,8 @@ interface SignUpFormProps {
   isMouseOverBirthDateToolTip: boolean;
   onMouseOverBirthDateToolTip: () => void;
   onMouseLeaveBirthDateToolTip: () => void;
+  isPasswordVisible: boolean;
+  onClickPasswordVisibleToggleButton: () => void;
 }
 
 function SignUpForm({
@@ -21,6 +23,8 @@ function SignUpForm({
   isMouseOverBirthDateToolTip,
   onMouseOverBirthDateToolTip,
   onMouseLeaveBirthDateToolTip,
+  isPasswordVisible,
+  onClickPasswordVisibleToggleButton,
 }: SignUpFormProps) {
   return (
     <form>
@@ -42,6 +46,8 @@ function SignUpForm({
               isMouseOverBirthDateToolTip={isMouseOverBirthDateToolTip}
               onMouseOverBirthDateToolTip={onMouseOverBirthDateToolTip}
               onMouseLeaveBirthDateToolTip={onMouseLeaveBirthDateToolTip}
+              isPasswordVisible={isPasswordVisible}
+              onClickPasswordVisibleToggleButton={onClickPasswordVisibleToggleButton}
             />
           </Fragment>
         );

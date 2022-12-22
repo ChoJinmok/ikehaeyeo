@@ -9,8 +9,18 @@ import { changeSignUpField } from '../../store/modules/signUpSlice';
 import type { RootState } from '../../store';
 import type { HandleChangeControllerParameter } from './type';
 
+interface SignUpState {
+  isMouseOverBirthDateToolTip: boolean;
+  isPasswordVisible: boolean;
+}
+
 export default function SignUpContainer() {
-  const [isMouseOverBirthDateToolTip, setIsMouseOverBirthDateToolTip] = useState<boolean>(false);
+  const [state, setState] = useState<SignUpState>({
+    isMouseOverBirthDateToolTip: false,
+    isPasswordVisible: false,
+  });
+
+  const { isMouseOverBirthDateToolTip, isPasswordVisible } = state;
 
   const dispatch = useDispatch();
 
@@ -24,12 +34,25 @@ export default function SignUpContainer() {
   );
 
   const handleMouseOverBirthDateToolTip = useCallback(() => {
-    setIsMouseOverBirthDateToolTip(true);
-  }, [setIsMouseOverBirthDateToolTip]);
+    setState({
+      ...state,
+      isMouseOverBirthDateToolTip: true,
+    });
+  }, [state, setState]);
 
   const handleMouseLeaveBirthDateToolTip = useCallback(() => {
-    setIsMouseOverBirthDateToolTip(false);
-  }, [setIsMouseOverBirthDateToolTip]);
+    setState({
+      ...state,
+      isMouseOverBirthDateToolTip: false,
+    });
+  }, [state, setState]);
+
+  const handleClickPasswordVisibleToggleButton = useCallback(() => {
+    setState({
+      ...state,
+      isPasswordVisible: !isPasswordVisible,
+    });
+  }, [state, setState, isPasswordVisible]);
 
   return (
     <SignUpForm
@@ -38,6 +61,8 @@ export default function SignUpContainer() {
       isMouseOverBirthDateToolTip={isMouseOverBirthDateToolTip}
       onMouseOverBirthDateToolTip={handleMouseOverBirthDateToolTip}
       onMouseLeaveBirthDateToolTip={handleMouseLeaveBirthDateToolTip}
+      isPasswordVisible={isPasswordVisible}
+      onClickPasswordVisibleToggleButton={handleClickPasswordVisibleToggleButton}
     />
   );
 }

@@ -12,16 +12,23 @@ describe('SignUpField', () => {
   const handleChangeController = jest.fn();
   const handleMouseOverBirthDateToolTip = jest.fn();
   const handleMouseLeaveBirthDateToolTip = jest.fn();
+  const handleClickPasswordVisibleToggleButton = jest.fn();
   const [defaultSignUpField] = signUpFields;
 
   interface RenderSignUpFieldParams {
     field?: SignUpFieldType;
     value?: ValueOfSignUpFields;
     isMouseOverBirthDateToolTip?: boolean;
+    isPasswordVisible?: boolean;
   }
 
   function renderSignUpField(
-    { field = defaultSignUpField, value = '', isMouseOverBirthDateToolTip = false }
+    {
+      field = defaultSignUpField,
+      value = '',
+      isMouseOverBirthDateToolTip = false,
+      isPasswordVisible = false,
+    }
     : RenderSignUpFieldParams = {},
   ) {
     return render(
@@ -32,6 +39,8 @@ describe('SignUpField', () => {
         isMouseOverBirthDateToolTip={isMouseOverBirthDateToolTip}
         onMouseOverBirthDateToolTip={handleMouseOverBirthDateToolTip}
         onMouseLeaveBirthDateToolTip={handleMouseLeaveBirthDateToolTip}
+        isPasswordVisible={isPasswordVisible}
+        onClickPasswordVisibleToggleButton={handleClickPasswordVisibleToggleButton}
       />,
     );
   }
@@ -159,10 +168,33 @@ describe('SignUpField', () => {
   context('with \'password\' field', () => {
     const passwordField = makeSignUpField('password');
 
-    it('renders password toggle button', () => {
-      const { queryByText } = renderSignUpField({ field: passwordField });
+    context('when password is \'not\' visible', () => {
+      it('renders showing password button', () => {
+        const { queryByText } = renderSignUpField({ field: passwordField });
 
-      expect(queryByText('비밀번호 표시하기')).not.toBeNull();
+        expect(queryByText('비밀번호 표시하기')).not.toBeNull();
+      });
+    });
+
+    context('when password is visible', () => {
+      const isPasswordVisible = true;
+
+      it('renders hiding password button', () => {
+        const { queryByText } = renderSignUpField({
+          field: passwordField,
+          isPasswordVisible,
+        });
+
+        expect(queryByText('비밀번호 숨기기')).not.toBeNull();
+      });
+    });
+
+    it('listens click event', () => {
+      const { getByRole } = renderSignUpField({ field: passwordField });
+
+      fireEvent.click(getByRole('button'));
+
+      expect(handleClickPasswordVisibleToggleButton).toBeCalled();
     });
   });
 });
