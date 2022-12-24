@@ -93,6 +93,27 @@ describe('SignUpField', () => {
     expect(queryByPlaceholderText(placeholder as string)).toHaveAttribute('type', type);
   });
 
+  context('when required attribute is set', () => {
+    const genderField = makeSignUpField('gender');
+    const { label } = genderField;
+
+    it('renders control of set required attribute', () => {
+      const { getByLabelText } = renderSignUpField({ field: genderField });
+
+      expect(getByLabelText(label)).not.toHaveAttribute('required');
+    });
+  });
+
+  context('when required attribute is not set', () => {
+    const { label } = defaultSignUpField;
+
+    it('renders required control', () => {
+      const { getByLabelText } = renderSignUpField();
+
+      expect(getByLabelText(label)).toHaveAttribute('required');
+    });
+  });
+
   context('with \'birth date\' field', () => {
     const birthDateField = makeSignUpField('birthDate');
 

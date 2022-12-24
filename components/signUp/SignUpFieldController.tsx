@@ -11,12 +11,14 @@ interface SignUpFieldControllerProps {
   name: SignUpField['name'];
   value: ValueOfSignUpFields;
   placeholder?: string;
+  required: boolean;
   onChange: HandleChangeController;
   isPasswordVisible: boolean;
 }
 
 export default function SignUpFieldController({
-  id, type, name, value, placeholder, onChange,
+  id, type, name, value, placeholder, required,
+  onChange,
   isPasswordVisible,
 }: SignUpFieldControllerProps) {
   function handleChange(
@@ -37,6 +39,7 @@ export default function SignUpFieldController({
         id={id}
         name={name}
         value={value}
+        required={required}
         onChange={handleChange}
         data-testid="gender-select"
       >
@@ -55,6 +58,7 @@ export default function SignUpFieldController({
       name={name}
       value={value}
       placeholder={placeholder && placeholder}
+      required={required}
       onChange={handleChange}
       data-testid={
         type === 'text' ? null : `${type}-input`

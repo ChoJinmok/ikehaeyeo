@@ -17,11 +17,12 @@ describe('SignUpFieldController', () => {
     name?: SignUpField['name'];
     value?: ValueOfSignUpFields;
     placeholder?: string;
+    required?: boolean;
     isPasswordVisible?: boolean;
   }
 
   function renderSignUpFieldController({
-    type, name = 'name', value = '', placeholder,
+    type, name = 'name', value = '', placeholder, required = true,
     isPasswordVisible = false,
   }: RenderSignUpFieldControllerParams = {}) {
     const id = `signUp-${name}`;
@@ -32,6 +33,7 @@ describe('SignUpFieldController', () => {
         name={name}
         type={type}
         placeholder={placeholder}
+        required={required}
         value={value}
         onChange={handleChange}
         isPasswordVisible={isPasswordVisible}
@@ -44,13 +46,20 @@ describe('SignUpFieldController', () => {
   });
 
   context('when rendering gender controller', () => {
-    const { name } = makeSignUpField('gender');
+    const name = 'gender';
+    const required = false;
 
-    it('renders gender selector', () => {
-      const { getByTestId, getByText, getAllByRole } = renderSignUpFieldController({ name });
+    it('renders gender selector set required attribute', () => {
+      const {
+        getByTestId,
+        getByText,
+        getAllByRole,
+      } = renderSignUpFieldController({ name, required });
 
       const genderSelector = getByTestId('gender-select');
       const genderNoneOption = getAllByRole('option')[0];
+
+      expect(genderSelector).not.toHaveAttribute('required');
 
       expect(genderNoneOption).toBeEmptyDOMElement();
 
@@ -89,7 +98,10 @@ describe('SignUpFieldController', () => {
 
       const { getByRole } = renderSignUpFieldController({ value });
 
-      expect(getByRole('textbox')).toHaveValue(value);
+      const textbox = getByRole('textbox');
+
+      expect(textbox).toHaveValue(value);
+      expect(textbox).toHaveAttribute('required');
     });
 
     it('listens change events', () => {

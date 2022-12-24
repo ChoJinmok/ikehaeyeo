@@ -22,7 +22,7 @@ interface SignUpInputProps {
 export default function SignUpField(
   {
     field: {
-      name, label, type, placeholder,
+      name, label, type, placeholder, required = true,
     },
     value,
     onChangeController,
@@ -37,7 +37,6 @@ export default function SignUpField(
 
   return (
     <div>
-
       {name === 'birthDate' && (
         <BirthDateTooltip
           isMouseOver={isMouseOverBirthDateToolTip}
@@ -71,6 +70,7 @@ export default function SignUpField(
         name={name}
         type={type}
         placeholder={placeholder}
+        required={required}
         value={value}
         onChange={onChangeController}
         isPasswordVisible={isPasswordVisible}

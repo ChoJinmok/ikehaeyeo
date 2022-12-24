@@ -7,13 +7,14 @@ export interface SignUpField {
   label: string;
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
+  required?: boolean;
 }
 
 const signUpFields: SignUpField[] = [
   { name: 'name', label: '이름' },
   { name: 'birthDate', label: '생일', placeholder: 'YYYY-MM-DD' },
   { name: 'phoneNumber', label: '휴대폰', type: 'tel' },
-  { name: 'gender', label: '성별 (선택 사항)' },
+  { name: 'gender', label: '성별', required: false },
   { name: 'streetNameAddress', label: '도로명 주소' },
   { name: 'detailedAddress', label: '상세 주소' },
   { name: 'zipCode', label: '우편번호', type: 'number' },
