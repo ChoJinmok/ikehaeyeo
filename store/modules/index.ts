@@ -4,9 +4,10 @@ import {
 
 import { HYDRATE } from 'next-redux-wrapper';
 
+import signUpSlice, { SignUpState } from './signUpSlice';
+
 export interface ReducerStates {
-    // TODO: 임시 타입 작성 추후 수정
-    [key: string]: string
+  signUp: SignUpState
 }
 
 const reducer = (state: ReducerStates, action: AnyAction) => {
@@ -18,7 +19,7 @@ const reducer = (state: ReducerStates, action: AnyAction) => {
   }
 
   return combineReducers({
-    //
+    signUp: signUpSlice,
   })(state, action);
 };
 

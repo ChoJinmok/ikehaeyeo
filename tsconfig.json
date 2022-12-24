@@ -19,8 +19,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "codecept.conf.js",
-    "codecept.conf.js"
+    "types.d.ts",
+    ".eslintrc.js",
+    "test"
   ],
   "exclude": ["node_modules"]
 }

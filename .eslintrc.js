@@ -11,6 +11,7 @@ module.exports = {
   ],
   extends: [
     'airbnb',
+    'airbnb-typescript',
     'airbnb/hooks',
     'next/core-web-vitals',
     'plugin:react/recommended',
@@ -22,6 +23,7 @@ module.exports = {
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: './tsconfig.json',
   },
   globals: {
     Atomics: 'readonly',
