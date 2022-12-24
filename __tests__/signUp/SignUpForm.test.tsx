@@ -45,8 +45,14 @@ describe('SignUpForm', () => {
     const { queryByLabelText, queryByText } = renderSignUpForm();
 
     SIGN_UP_FIELDS.forEach(
-      ({ name, label }) => {
-        const signUpController = queryByLabelText(label);
+      ({ name, label, required }) => {
+        function makeLabel() {
+          if (typeof required === 'undefined' || required) return label;
+
+          return `${label} (선택 사항)`;
+        }
+
+        const signUpController = queryByLabelText(makeLabel());
 
         expect(signUpController).not.toBeNull();
         expect(signUpController).toHaveValue(signUpFields[name]);

@@ -64,6 +64,7 @@ export default function SignUpField(
 
       <label htmlFor={id}>
         {label}
+        {!required && ' (선택 사항)'}
       </label>
       <SignUpFieldController
         id={id}

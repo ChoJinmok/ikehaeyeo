@@ -93,12 +93,25 @@ describe('SignUpField', () => {
     expect(queryByPlaceholderText(placeholder as string)).toHaveAttribute('type', type);
   });
 
-  context('when required attribute is set', () => {
-    const genderField = makeSignUpField('gender');
-    const { label } = genderField;
+  context('when required attribute is true', () => {
+    const { ...field } = defaultSignUpField;
+    field.required = true;
+    const { label } = field;
 
-    it('renders control of set required attribute', () => {
-      const { getByLabelText } = renderSignUpField({ field: genderField });
+    it('renders required control', () => {
+      const { getByLabelText } = renderSignUpField({ field });
+
+      expect(getByLabelText(label)).toHaveAttribute('required');
+    });
+  });
+
+  context('when required attribute is false', () => {
+    const { ...field } = defaultSignUpField;
+    field.required = false;
+    const label = `${field.label} (선택 사항)`;
+
+    it('renders required control', () => {
+      const { getByLabelText } = renderSignUpField({ field });
 
       expect(getByLabelText(label)).not.toHaveAttribute('required');
     });

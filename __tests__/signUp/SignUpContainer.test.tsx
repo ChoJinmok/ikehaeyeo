@@ -67,8 +67,14 @@ describe('SignUpContainer', () => {
     const { queryByLabelText } = render(<SignUpContainer />);
 
     SIGN_UP_FIELDS.forEach(
-      ({ name, label }) => {
-        const signUpInput = queryByLabelText(label);
+      ({ name, label, required }) => {
+        function makeLabel() {
+          if (required === undefined || required) return label;
+
+          return `${label} (선택 사항)`;
+        }
+
+        const signUpInput = queryByLabelText(makeLabel());
 
         expect(signUpInput).not.toBeNull();
         expect(signUpInput).toHaveValue(signUpFields[name]);
